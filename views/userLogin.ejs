@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User logined</title>
+</head>
+<body>
+    <% if(data.user) { %>
+        <li ><%= data.user.log_name%></li>
+        <li class="signup"><a href="/logout">Logout</a></li>
+    <% } else { %>
+        <li class="signin"><a href="/login">Signin</a></li>
+        <li class="signup"><a href="/register"><i class="fas fa-user"></i>Signup</a></li>
+    <% } %>
+    
+    <% for(var i=0; i < data.length; i++) { %>      
+        <li><a href="/detail/<%= data[i]._id%>"><img src="<%= data[i].course_img%>" alt="photo" style="width: 300px;height: 200px;"></a></li>
+        <li><%= data[i].course_name%></li>
+        <li><%= data[i].course_date.toDateString()%> || <%= data[i].course_date.toLocaleTimeString()%></li> 
+        <li><%= data[i].course_des%></li>  
+        <li><%= data[i].course_like%></li> 
+    <% } %>
+
+</body>
+</html>

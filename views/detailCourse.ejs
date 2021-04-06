@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course detail</title>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .fa {
+          font-size: 50px;
+          cursor: pointer;
+          user-select: none;
+        }
+        
+        .fa:hover {
+          color: darkblue;
+        }
+    </style> -->
+</head>
+<body>
+    <ul>
+        <% if(data.user) { %>
+            <li ><a href=""><%= data.user.log_name%></a></li>
+            <li class="signup"><a href="/logout">Logout</a></li>
+        <% } else { %>
+            <li class="signin"><a href="/login">Signin</a></li>
+            <li class="signup"><a href="/register"><i class="fas fa-user"></i>Signup</a></li>
+        <% } %>
+    </ul>
+    <ul>
+        <li><%= data.course_name%></li>
+        <li><iframe width="560" height="315" src="<%= data.course_url%>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></li> 
+        <li><%= data.course_date.toDateString()%> || <%= data.course_date.toLocaleTimeString()%></li> 
+        <li><%= data.course_des%></li>     
+        <li><%= data.course_like%></li>
+        <% if(data.user) { %>
+            <% if(!liked) { %>
+                <li> <button id="btn-like" type="button"><a href="/likeCourse/<%=data.id%>">Like</a></button> </li>
+            <% } else { %>
+                <li> <button type="button"> Liked </button> </li>
+            <% } %> 
+        <% } %>        
+    </ul>
+
+
+    <!-- <i onclick="myFunction(this)" class="fa fa-thumbs-up"></i>
+
+    <script>
+        function myFunction(x) {
+            x.classList.toggle("fa-thumbs-down");
+        }
+    </script> -->
+
+    
+    <hr>
+    <div>
+        <% if(data.user) { %>
+            <form>
+                <br>
+                <input type="text" placeholder="Enter your comment..." id="content" name="content"/>
+                <button id="post-comment" type="submit">Post</button>
+            </form>
+            <% for(let i=0; i < comment.length; i++) { %>      
+                <ul>
+                    <li><%=comment[i].user[0].username%> : <%=comment[i].content%></li>
+                </ul> 
+            <% } %> 
+        <% } else { %>
+            <% for(let i=0; i < comment.length; i++) { %> 
+                <ul>
+                    <li><%=comment[i].user[0].username%> : <%=comment[i].content%></li>
+                </ul> 
+            <% } %> 
+        <% } %>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+</body>
+</html>
+<script type="text/javascript">
+    $(function () {
+        $('input[type="text"]').change(function () {
+            this.value = $.trim(this.value);
+        });
+    });
+    $(function () {
+        $('#post-comment').click(function () {
+            const content = $('input[name=content]').val()
+            const course = `<%= data.id%>`
+            const data = {course: course, content:content}
+            
+            $.ajax({
+                type: 'POST',
+                data : data,
+                url : '/postComment',
+                success: function(data) {
+                    if(data == true){
+                        location.reload()
+                    }else{
+                        swal('Post Error !')
+                    }
+                }
+            })
+        })
+    })
+
+
+
+    
+</script>
