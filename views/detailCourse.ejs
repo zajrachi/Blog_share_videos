@@ -5,29 +5,47 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course detail</title>
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        .fa {
-          font-size: 50px;
-          cursor: pointer;
-          user-select: none;
-        }
-        
-        .fa:hover {
-          color: darkblue;
-        }
-    </style> -->
+ 
 </head>
 <body>
-    <ul>
+
+    <div style="display: flex;">
+        <div class="logo"> shareXvideos</div>
+
         <% if(data.user) { %>
-            <li ><a href=""><%= data.user.log_name%></a></li>
+            <a href="/userLogin">Home Page</a>
+        <% } else { %>
+            <a href="/">Home Page</a>
+        <% } %>
+
+        <ul>
+            Topic
+            <li><a href="/topicIT">IT</a></li>
+            <li><a href="/topicMusic">Music</a></li>
+            <li><a href="/topicGame">Game</a></li>
+        </ul>
+
+        <ul>
+            <% if(data.user) { %>
+                <li ><a href="/userProfile"><img src="<%= data.user.avatar%>" style="width: 40px; height: 40px"/></a><%= data.user.username%></li>
+                <li class="signup"><a href="/logout">Logout</a></li>
+                
+            <% } else { %>
+                <li class="signin"><a href="/login">Signin</a></li>
+                <li class="signup"><a href="/register"><i class="fas fa-user"></i>Signup</a></li>
+            <% } %>
+        </ul>
+    </div>
+
+    <!-- <ul>
+        <% if(data.user) { %>
+            <li ><%= data.user.log_name%></li>
             <li class="signup"><a href="/logout">Logout</a></li>
         <% } else { %>
             <li class="signin"><a href="/login">Signin</a></li>
             <li class="signup"><a href="/register"><i class="fas fa-user"></i>Signup</a></li>
         <% } %>
-    </ul>
+    </ul> -->
     <ul>
         <li><%= data.course_name%></li>
         <li><iframe width="560" height="315" src="<%= data.course_url%>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></li> 
@@ -44,14 +62,7 @@
     </ul>
 
 
-    <!-- <i onclick="myFunction(this)" class="fa fa-thumbs-up"></i>
-
-    <script>
-        function myFunction(x) {
-            x.classList.toggle("fa-thumbs-down");
-        }
-    </script> -->
-
+    
     
     <hr>
     <div>
@@ -63,13 +74,15 @@
             </form>
             <% for(let i=0; i < comment.length; i++) { %>      
                 <ul>
-                    <li><%=comment[i].user[0].username%> : <%=comment[i].content%></li>
+                    <li><a href="/userProfile"><img src="<%=comment[i].user[0].avatar%>" style="width: 40px; height: 40px"/></a><%=comment[i].user[0].username%> : <%=comment[i].content%> </li>
+                    <%=comment[i].date.toLocaleDateString()%> -- <%= data.course_date.toLocaleTimeString()%>
                 </ul> 
             <% } %> 
         <% } else { %>
             <% for(let i=0; i < comment.length; i++) { %> 
                 <ul>
-                    <li><%=comment[i].user[0].username%> : <%=comment[i].content%></li>
+                    <li><a href="/userProfile"><img src="<%=comment[i].user[0].avatar%>" style="width: 40px; height: 40px"/></a><%=comment[i].user[0].username%> : <%=comment[i].content%></li>
+                    <%=comment[i].date.toLocaleDateString()%> -- <%= data.course_date.toLocaleTimeString()%>
                 </ul> 
             <% } %> 
         <% } %>

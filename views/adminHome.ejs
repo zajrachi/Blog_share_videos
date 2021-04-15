@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+</head>
+<body>
+    ADMIN PAGE 
+    <ul>
+        <% if(data.admin) { %>
+            <li ><%= data.admin.log_name%></li>
+            <li class="signup"><a href="/adminLogout">Logout</a></li>
+        <% } %>
+    </ul>
+    <button type="button"><a href="/addCourse">Add Course</a></button>
+    <% for(var i=0; i < data.length; i++) { %>      
+        <li><a href="/detailCourseAdmin/<%= data[i]._id%>"><%= data[i].course_name%></a><button type="button"><a href="/editCourse/<%= data[i]._id%>">Edit Course</a></button><button type="button"><a href="/deleteCourse/<%= data[i]._id%>">Delete Course</a></button></li>
+        <li><%= data[i].course_date.toDateString()%> || <%= data[i].course_date.toLocaleTimeString()%></li> 
+    <% } %>
+</body>
+</html>

@@ -6,7 +6,8 @@ const UserSchema = new Schema({
     log_name: String,
     pass: String,
     username: String,
-    email: String
+    email: String,
+    avatar: String,
 
 }, {
     collection: 'user'

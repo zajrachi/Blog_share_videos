@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const LikeSchema = new Schema({
-    course : [{ type: Schema.Types.ObjectId, ref: 'course' }],
+    course : [{ type: Schema.Types.ObjectId, ref: 'courses' }],
     user : [{ type: Schema.Types.ObjectId, ref: 'user' }],
 
 }, {

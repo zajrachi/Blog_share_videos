@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User's Profile Update</title>
+</head>
+<body>
+    <form >
+        <label>Avatar :</label>
+        <input type="file" name="avatar" value="<%=data.avatar%>" required />
+        <label>Display name :</label>
+        <input type="text" name="username" value="<%=data.username%>" required />
+        <label>Email :</label>
+        <input type="email" name="email" value="<%=data.email%>" required />
+        <button type="button" id="update">Save</button>
+    </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+</body>
+</html>
+
+<script type="text/javascript">
+    $(function () {
+        $('input[type="text"]').change(function () {
+            this.value = $.trim(this.value);
+        });
+    });
+    $(function () {
+        $('#update').click(function (e) {
+            const formData = new FormData();
+            formData.append('avatar', $('input[type=file]')[0].files[0]);
+            formData.append('username', $('input[name=username]').val());
+            formData.append('email', $('input[name=email]').val());
+                $.ajax({
+                    type: 'POST',
+                    data: formData,
+                    url: '/updateProfile',
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        if (data == true) {
+                            swal({
+                                title: "Good job!",
+                                text: "You clicked the button!",
+                                icon: "success",
+                                button: "Aww yiss!",
+                            }).then(function () {
+                                location.href = "/userProfile";
+                            });
+
+                        } else {
+                            swal("Oh noes!", "The AJAX request failed!", "error");
+                        }
+                    },
+                });
+        });
+    });
+</script>

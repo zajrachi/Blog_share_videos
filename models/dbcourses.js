@@ -10,6 +10,7 @@ const CoursesSchema = new Schema({
     course_like: {type : Number},
     course_img : String,
     comment : [{ type: Schema.Types.ObjectId, ref: 'comments' }],
+    category : [{ type: Schema.Types.ObjectId, ref: 'category' }],
 
 }, {
     collection: 'courses'

@@ -5,19 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="login.css">
-    <title>Login page</title>
+    <title>Admin Login Form</title>
 </head>
 <body>
     <div class="wrapper">
         <div class="container">
-            <h1>Welcome</h1>
-            
-            <form class="form" action="/login" method="POST">
+            <h1>Administrator</h1>
+            <form class="form" action="/adminLogin" method="POST">
                 <input type="text" placeholder="Username" name="log_name" required />
                 <input type="password" placeholder="Password" name="pass" required />
                 <ul>
                     <li><button type="submit" id="login-button">Login</button></li>
-                    <li><button id="register-button"><a href="/register">Register</a></button></li>
                 </ul>
             </form>
         </div>

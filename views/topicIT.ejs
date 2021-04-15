@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topic IT</title>
+</head>
+<body>
+
+    <div style="display: flex;">
+        <div class="logo"> shareXvideos</div>
+
+        <% if(data.user) { %>
+            <a href="/userLogin">Home Page</a>
+        <% } else { %>
+            <a href="/">Home Page</a>
+        <% } %>
+
+        <ul>
+            Topic
+            <li><a href="/topicIT">IT</a></li>
+            <li><a href="/topicMusic">Music</a></li>
+            <li><a href="/topicGame">Game</a></li>
+        </ul>
+
+        <form class="search-form" action="/topicIT" method="get">
+            <input type="search" name="course_name" placeholder="Search course...">
+        </form>
+
+        <ul>
+            <% if(data.user) { %>
+                <li ><a href="/userProfile"><img src="<%= data.user.avatar%>" style="width: 40px; height: 40px"/></a><%= data.user.username%></li>
+                <li class="signup"><a href="/logout">Logout</a></li>
+                
+            <% } else { %>
+                <li class="signin"><a href="/login">Signin</a></li>
+                <li class="signup"><a href="/register"><i class="fas fa-user"></i>Signup</a></li>
+            <% } %>
+        </ul>
+    </div>
+
+
+    <h1>IT</h1>
+    <div style="display: flex;">
+        <% for(let i=0; i < data.length; i++) { %>  
+            <% if(data[i].category[0].cate_name == "IT") { %>
+                 <div>
+                    <li><%= data[i].course_name%></li>                  
+                    <li><a href="/detail/<%= data[i]._id%>"><img src="<%= data[i].course_img%>" alt="photo" style="width: 300px;height: 200px;"/></a></li>
+                 </div>    
+            <% } %>
+        <% } %>
+    </div>
+</body>
+</html>
