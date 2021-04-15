@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link rel="stylesheet" href="notification.css">
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+    <title>User logined</title>
+</head>
+
+<body>
+    <div class="main">
+        <div class="banner">
+            <div class="head">
+                <div class="logo" style="width:150px ; height:50px">shareXvideos</div>
+                <!-- <img src="" alt="" height="50px" width="150px" /> -->
+            <% if(data.user) { %>
+                <a href="/userLogin" class="home">Home Page</a>
+                <% } else { %>
+                    <a href="/">Home Page</a>
+                    <% } %>
+                        <div class="menu-topic">
+                            <button class="btn-topic"> Topic</button>
+                            <div class="drop-topic">
+                                <a href="/topicIT">IT</a>
+                                <a href="/topicMusic">Music</a>
+                                <a href="/topicGame">Game</a>
+                            </div>
+                        </div>
+
+                        <ul class="bell">
+                            <% if(data.user) { %>
+                                <li><a href="/userProfile"><img src="<%= data.user.avatar%>" class="avatar" /></a>
+                                    <article class="user-name">
+                                        <%= data.user.username%>
+                                    </article>
+                                </li>
+                                <div class="dropdown">
+                                    <button onclick="myFunction()" class="dropbtn" ><a  href="/userLogin"></a>
+                                        <i class="fas fa-bell" ></i>
+                                        <%=countNoti%>
+                                    </button>
+                                    <div id="myDropdown" class="dropdown-content">
+                                        <% for(let i=0; i < dataNoti.length; i++) { %>
+                                            <a href="/detail/<%= dataNoti[i].course[0]._id%>">
+                                                You have a new video : <%= dataNoti[i].course[0].course_name%>
+                                            </a>
+                                        <% } %>
+                                    </div>
+                                </div>
+                                <li class="signup"><button><a href="/logout">Logout</a></button></li>
+                                
+                            <% } else { %>
+                                <li class="signin"><a href="/login">Signin</a></li>
+                                <li class="register"><a href="/register">Signup</a></li>
+                            <% } %>
+                        </ul>
+            </div>
+            
+        </div>
+        <script>     
+            function myFunction() {
+                document.getElementById("myDropdown").classList.toggle("show");
+            }
+
+            // Close the dropdown menu if the user clicks outside of it
+            window.onclick = function (event) {
+                if (!event.target.matches('.dropbtn')) {
+                    let dropdowns = document.getElementsByClassName("dropdown-content");
+                    let i;
+                    for (i = 0; i < dropdowns.length; i++) {
+                        let openDropdown = dropdowns[i];
+                        if (openDropdown.classList.contains('show')) {
+                            openDropdown.classList.remove('show');
+                        }
+                    }
+                }
+            }
+            window.onscroll = function() {
+                if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+                    document.querySelector(".head").style.background = "-webkit-linear-gradient(top left,#50a3a2 0%,#53e3a6 100%)";   
+                } else {
+                    document.querySelector(".head").style.background = "";
+                    
+                }
+            }
+        </script>
+
+        <div class="content">
+            <div class="music">
+                <h3>Music </h3>
+                <div style="display: flex" >
+                    <div class="video">
+                        <li><a href="/detail/<%= dataMusic[0]._id%>">
+                            <img src="<%= dataMusic[0].course_img%>" alt="photo" style="width: 300px;height: 200px;">
+                            </a>
+                        </li>
+                        <li class="video-name">
+                            <%= dataMusic[0].course_name%>
+                        </li>
+                    </div>
+                    <div class="video">
+                        <li><a href="/detail/<%= dataMusic[1]._id%>"><img src="<%= dataMusic[1].course_img%>"
+                                    alt="photo" style="width: 300px;height: 200px;"></a></li>
+                        <li class="video-name">
+                            <%= dataMusic[1].course_name%>
+                        </li>
+                    </div>
+                    <div class="video">
+                        <li><a href="/detail/<%= dataMusic[2]._id%>"><img src="<%= dataMusic[2].course_img%>"
+                                    alt="photo" style="width: 300px;height: 200px;"></a></li>
+                        <li class="video-name">
+                            <%= dataMusic[2].course_name%>
+                        </li>
+                    </div>
+                </div>
+            </div>
+            <div class="it">
+                <h3>IT</h3>
+                <div style="display: flex">
+                    <div class="video">
+                        <li><a href="/detail/<%= dataIT[0]._id%>"><img src="<%= dataIT[0].course_img%>" alt="photo"
+                                    style="width: 300px;height: 200px;"></a></li>
+                        <li class="video-name">
+                            <%= dataIT[0].course_name%>
+                        </li>
+                    </div>
+                    <div class="video">
+                        <li><a href="/detail/<%= dataIT[1]._id%>"><img src="<%= dataIT[1].course_img%>" alt="photo"
+                                    style="width: 300px;height: 200px;"></a></li>
+                        <li class="video-name">
+                            <%= dataIT[1].course_name%>
+                        </li>
+                    </div>
+                    <div class="video">
+                        <li><a href="/detail/<%= dataIT[2]._id%>"><img src="<%= dataIT[2].course_img%>" alt="photo"
+                                    style="width: 300px;height: 200px;"></a></li>
+                        <li class="video-name">
+                            <%= dataIT[2].course_name%>
+                        </li>
+                    </div>
+                </div>
+            </div>
+            <div class="game">
+                <h3>Game</h3>
+                <div style="display: flex">
+                    <div class="video">
+                        <li><a href="/detail/<%= dataGame[0]._id%>"><img src="<%= dataGame[0].course_img%>" alt="photo"
+                                    style="width: 300px;height: 200px;"></a></li>
+                        <li class="video-name">
+                            <%= dataGame[0].course_name%>
+                        </li>
+                    </div>
+                    <div class="video">
+                        <li><a href="/detail/<%= dataGame[1]._id%>"><img src="<%= dataGame[1].course_img%>" alt="photo"
+                                    style="width: 300px;height: 200px;"></a></li>
+                        <li class="video-name">
+                            <%= dataGame[1].course_name%>
+                        </li>
+                    </div>
+                    <div class="video">
+                        <li><a href="/detail/<%= dataGame[2]._id%>"><img src="<%= dataGame[2].course_img%>" alt="photo"
+                                    style="width: 300px;height: 200px;"></a></li>
+                        <li class="video-name">
+                            <%= dataGame[2].course_name%>
+                        </li>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="intro-team">
+            <div class="team"><img src="http://vignette2.wikia.nocookie.net/naruto/images/5/50/Team_Kakashi.png/revision/latest?cb=20150110003355"></div>
+            <div class="team">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat soluta illo esse eligendi numquam omnis ipsa, laudantium illum dolores cumque culpa non. Nisi, eos. Autem corporis nulla quisquam quo tenetur.</p>
+                <p>- Team 2 -</p>
+            </div>
+        </div>
+        <div class="footer">
+            <footer class="w3-row-padding w3-padding-32">
+                <div class="w3-third">
+                  <h3>shareXvideos</h3>
+                  <p class="foot-intro">Videos are carefully invested from content to image and sound quality. We create the website to share our knowledge and passion.</br> We hope you like it !</p>
+                  <p>Powered by <a href="https://www.facebook.com/tr.kim.92/" target="_blank">@kimTr</a></p>
+                </div>
+              
+                <div class="w3-third">
+                  <h3>Contact us</h3>
+                  <ul class="w3-ul w3-hoverable">
+                    <li class="w3-padding-16">
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8xjjWkXHRXgyUOS9L2Sd35MxGBx6BuaH8iw&usqp=CAU" class="w3-left w3-margin-right" style="width:50px">
+                      <span class="w3-large">Gmail</span><br>
+                      <span>Mailbox support</span>
+                    </li>
+                    <li class="w3-padding-16">
+                      <img src="https://i.pinimg.com/originals/de/6d/f0/de6df0ee130430ebb8995093867ae63b.jpg" class="w3-left w3-margin-right" style="width:50px">
+                      <span class="w3-large">Facebook</span><br>
+                      <span>Group fanpage</span>
+                    </li> 
+                  </ul>
+                </div>
+            
+                <div class="w3-third w3-serif">
+                  <h3>POPULAR TAGS</h3>
+                  <p>
+                    <span class="w3-tag w3-black w3-margin-bottom">shareXvideos</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Vietnamese</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Relax</span>
+                    <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">IT</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">English</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">After work</span>
+                    <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Music</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Passion</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">NodeJs</span>
+                    <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Game</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Share</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Javascript</span>
+                    <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Study</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">kimTr</span>
+                  </p>
+                </div>
+              </footer>
+        </div>
+
+
+
+    </div>
+
+</body>
+
+</html>

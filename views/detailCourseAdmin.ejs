@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin's Detail Course Page</title>
+</head>
+<body>
+    <ul>
+        <% if(data.admin) { %>
+            <li ><%= data.admin.log_name%></li>
+            <li ><a href="/adminLogout">Logout</a></li>
+        <% } %>
+    </ul>
+    <ul>
+        <li><%= data.course_name%></li>
+        <li><iframe width="560" height="315" src="<%= data.course_url%>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></li> 
+        <li><%= data.course_date.toDateString()%> || <%= data.course_date.toLocaleTimeString()%></li> 
+        <li><%= data.course_des%></li>     
+        <li><%= data.course_like%></li>       
+    </ul>
+ 
+    <hr>
+    <div>
+        <% for(let i=0; i < comment.length; i++) { %> 
+            <ul>
+                <li><%=comment[i].user[0].username%> : <%=comment[i].content%></li><button type="button"><a href="/deleteComment/<%=comment[i]._id%>">Delete</a></button>
+            </ul> 
+        <% } %> 
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course detail</title>
+ 
+</head>
+<body>
+
+    <div style="display: flex;">
+        <div class="logo"> shareXvideos</div>
+
+        <% if(data.user) { %>
+            <a href="/userLogin">Home Page</a>
+        <% } else { %>
+            <a href="/">Home Page</a>
+        <% } %>
+
+        <ul>
+            Topic
+            <li><a href="/topicIT">IT</a></li>
+            <li><a href="/topicMusic">Music</a></li>
+            <li><a href="/topicGame">Game</a></li>
+        </ul>
+
+        <ul>
+            <% if(data.user) { %>
+                <li ><a href="/userProfile"><img src="<%= data.user.avatar%>" style="width: 40px; height: 40px"/></a><%= data.user.username%></li>
+                <li class="signup"><a href="/logout">Logout</a></li>
+                
+            <% } else { %>
+                <li class="signin"><a href="/login">Signin</a></li>
+                <li class="signup"><a href="/register"><i class="fas fa-user"></i>Signup</a></li>
+            <% } %>
+        </ul>
+    </div>
+
+    <!-- <ul>
+        <% if(data.user) { %>
+            <li ><%= data.user.log_name%></li>
+            <li class="signup"><a href="/logout">Logout</a></li>
+        <% } else { %>
+            <li class="signin"><a href="/login">Signin</a></li>
+            <li class="signup"><a href="/register"><i class="fas fa-user"></i>Signup</a></li>
+        <% } %>
+    </ul> -->
+    <ul>
+        <li><%= data.course_name%></li>
+        <li><iframe width="560" height="315" src="<%= data.course_url%>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></li> 
+        <li><%= data.course_date.toDateString()%> || <%= data.course_date.toLocaleTimeString()%></li> 
+        <li><%= data.course_des%></li>     
+        <li><%= data.course_like%></li>
+        <% if(data.user) { %>
+            <% if(!liked) { %>
+                <li> <button id="btn-like" type="button"><a href="/likeCourse/<%=data.id%>">Like</a></button> </li>
+            <% } else { %>
+                <li> <button type="button"> Liked </button> </li>
+            <% } %> 
+        <% } %>        
+    </ul>
+
+
+    
+    
+    <hr>
+    <div>
+        <% if(data.user) { %>
+            <form>
+                <br>
+                <input type="text" placeholder="Enter your comment..." id="content" name="content"/>
+                <button id="post-comment" type="submit">Post</button>
+            </form>
+            <% for(let i=0; i < comment.length; i++) { %>      
+                <ul>
+                    <li><a href="/userProfile"><img src="<%=comment[i].user[0].avatar%>" style="width: 40px; height: 40px"/></a><%=comment[i].user[0].username%> : <%=comment[i].content%> </li>
+                    <%=comment[i].date.toLocaleDateString()%> -- <%= data.course_date.toLocaleTimeString()%>
+                </ul> 
+            <% } %> 
+        <% } else { %>
+            <% for(let i=0; i < comment.length; i++) { %> 
+                <ul>
+                    <li><a href="/userProfile"><img src="<%=comment[i].user[0].avatar%>" style="width: 40px; height: 40px"/></a><%=comment[i].user[0].username%> : <%=comment[i].content%></li>
+                    <%=comment[i].date.toLocaleDateString()%> -- <%= data.course_date.toLocaleTimeString()%>
+                </ul> 
+            <% } %> 
+        <% } %>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+</body>
+</html>
+<script type="text/javascript">
+    $(function () {
+        $('input[type="text"]').change(function () {
+            this.value = $.trim(this.value);
+        });
+    });
+    $(function () {
+        $('#post-comment').click(function () {
+            const content = $('input[name=content]').val()
+            const course = `<%= data.id%>`
+            const data = {course: course, content:content}
+            
+            $.ajax({
+                type: 'POST',
+                data : data,
+                url : '/postComment',
+                success: function(data) {
+                    if(data == true){
+                        location.reload()
+                    }else{
+                        swal('Post Error !')
+                    }
+                }
+            })
+        })
+    })
+
+
+
+    
+</script>

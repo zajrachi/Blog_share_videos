@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login.css">
+    <title>Admin Login Form</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <h1>Administrator</h1>
+            <form class="form" action="/adminLogin" method="POST">
+                <input type="text" placeholder="Username" name="log_name" required />
+                <input type="password" placeholder="Password" name="pass" required />
+                <ul>
+                    <li><button type="submit" id="login-button">Login</button></li>
+                </ul>
+            </form>
+        </div>
+        
+        <ul class="bg-bubbles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <script>
+        $("#login-button").click(function(event){
+            event.preventDefault();
+   
+            $('form').fadeOut(500);
+            $('.wrapper').addClass('form-success');
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+</body>
+</html>
