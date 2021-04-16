@@ -11,7 +11,7 @@ const fileUpload = require('express-fileupload');
 const app = express();
 
 app.use(fileUpload());
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public' ));
 app.use("/controllers/uploads", express.static(__dirname + '/controllers/uploads'));
 
 

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="controllers/uploads/icons8-video-64.ico" type="image/png">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <link rel="stylesheet" href="notification.css">
     <link rel="stylesheet" href="home.css">
@@ -96,7 +97,8 @@
                 <h3>Music </h3>
                 <div style="display: flex" >
                     <div class="video">
-                        <li><a href="/detail/<%= dataMusic[0]._id%>">
+                        <li>
+                            <a href="/detail/<%= dataMusic[0]._id%>">
                             <img src="<%= dataMusic[0].course_img%>" alt="photo" style="width: 300px;height: 200px;">
                             </a>
                         </li>
@@ -105,7 +107,8 @@
                         </li>
                     </div>
                     <div class="video">
-                        <li><a href="/detail/<%= dataMusic[1]._id%>"><img src="<%= dataMusic[1].course_img%>"
+                        <li><a href="/detail/<%= dataMusic[1]._id%>">
+                            <img src="<%= dataMusic[1].course_img%>"
                                     alt="photo" style="width: 300px;height: 200px;"></a></li>
                         <li class="video-name">
                             <%= dataMusic[1].course_name%>

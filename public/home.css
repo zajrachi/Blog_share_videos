@@ -187,6 +187,7 @@ li{
     border-radius: 10px;
     height: 260px;
     background-size: 100% auto;
+    overflow: hidden;
 }
 
 .video img{
@@ -199,6 +200,9 @@ li{
   }
 .video-name{
     padding: 5px 5px 5px 10px;
+}
+.video li{
+    overflow: hidden;
 }
 
 .intro-team{
