@@ -50,6 +50,19 @@ exports.goUserLogin = async function(req, res){
         let countNoti = 0
         if(dataNotiUser.length == 0) countNoti = dataNoti.length 
         if(dataNotiUser.length > 0) {
+            // dataNoti.map(i =>{
+            //    let rs =  dataNotiUser.find(data => {
+            //         return String(data.course[0]) !== String(i.course[0]._id)
+            //         // if(String(data.course[0]) !== String(i.course[0]._id)){
+            //         //     countNoti += 1 
+            //         // } 
+            //         // if(String(data.course[0]) === String(i.course[0]._id)){
+            //         //     countNoti -= 1 
+            //         // }
+            //     })
+            //     console.log('length',rs)
+            //     countNoti += rs.length
+            // })
             if(dataNotiUser.length == 1){
                 countNoti = dataNoti.length - 1;
             }else if(dataNotiUser.length > 1){
