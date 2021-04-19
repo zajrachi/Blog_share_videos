@@ -20,10 +20,10 @@
             <div class="head">
                 <div class="logo" style="width:150px ; height:50px">shareXvideos</div>
                 <!-- <img src="" alt="" height="50px" width="150px" /> -->
-            <% if(data.user) { %>
-                <a href="/userLogin" class="home">Home Page</a>
-                <% } else { %>
-                    <a href="/">Home Page</a>
+                    <% if(data.user) { %>
+                        <a href="/userLogin" class="home">Home Page</a>
+                    <% } else { %>
+                        <a href="/" class="home">Home Page</a>
                     <% } %>
                         <div class="menu-topic">
                             <button class="btn-topic"> Topic</button>
@@ -55,7 +55,7 @@
                                     </div>
                                 </div>
                                 <li class="signup"><button><a href="/logout">Logout</a></button></li>
-                                
+
                             <% } else { %>
                                 <li class="signin"><a href="/login">Signin</a></li>
                                 <li class="register"><a href="/register">Signup</a></li>
@@ -225,5 +225,4 @@
     </div>
 
 </body>
-
 </html>

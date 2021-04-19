@@ -27,12 +27,51 @@ exports.goAdminLogin = function(req, res){
 
 exports.goAdminHome = async function(req, res){
     try{ 
-        let data = await CoursesModel.find({})
-        data.admin = req.session.User;
-        res.render('adminHome.ejs',{data: data})
+        let perPage = 4; // số lượng sản phẩm xuất hiện trên 1 page
+        let page = req.params.page || 1; 
+
+        let query = {}
+        if(req.query.course_name) {query.course_name = new RegExp(req.query.course_name , "i")}
+        let data = await CoursesModel.find(query)
+
+        .skip((perPage * page) - perPage) // Trong page đầu tiên sẽ bỏ qua giá trị là 0
+        .limit(perPage)
+        .exec((err, data) => {
+            CoursesModel.countDocuments((err, count) => { // đếm để tính có bao nhiêu trang
+              if (err) return next(err);
+              data.admin = req.session.User;
+              res.render('adminHome.ejs',{data  , current : page , pages: Math.ceil(count / perPage) })
+            })
+        })
+
+        // data.admin = req.session.User;
+        // res.render('adminHome.ejs',{data: data})
     }
-    catch (err) {
-        res.json(err)
+    catch (error) {
+        res.json(error)
+    }
+}
+exports.goAdminPage = async function(req, res){
+    try{ 
+        let perPage = 4; // số lượng sản phẩm xuất hiện trên 1 page
+        let page = req.params.page || 1; 
+
+        let query = {}
+        if(req.query.course_name) {query.course_name = new RegExp(req.query.course_name , "i")}
+        let data = await CoursesModel.find(query)
+
+        .skip((perPage * page) - perPage) // Trong page đầu tiên sẽ bỏ qua giá trị là 0
+        .limit(perPage)
+        .exec((err, data) => {
+            CoursesModel.countDocuments((err, count) => { // đếm để tính có bao nhiêu trang
+              if (err) return next(err);
+              data.admin = req.session.User;
+              res.render('adminHome.ejs',{data  , current : page , pages: Math.ceil(count / perPage) })
+            })
+        })
+    }
+    catch (error) {
+        res.json(error)
     }
 }
 

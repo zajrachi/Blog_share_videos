@@ -75,7 +75,7 @@ exports.detail = async function(req, res){
                 user : req.session.User,
             })
         }
-        res.render('detailCourse.ejs',{data: data, comment: comment,liked :liked})
+        res.render('detailCourse.ejs',{data, comment, liked})
     }
     catch (err) {
         res.json(err)

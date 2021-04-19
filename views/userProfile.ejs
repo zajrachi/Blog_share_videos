@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="controllers/uploads/icons8-video-64.ico" type="image/png">
+    <link rel="stylesheet" href="updateAvatar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <title>Profile User</title>
 </head>
 <body>
@@ -12,7 +14,7 @@
     <div style="display: flex;">
         <div class="logo"> shareXvideos</div>
 
-        <% if(data.user) { %>
+        <% if(data) { %>
             <a href="/userLogin">Home Page</a>
         <% } else { %>
             <a href="/">Home Page</a>
@@ -27,8 +29,8 @@
 
         
         <ul>
-            <% if(data.user) { %>
-                <li ><a href="/userProfile"><img src="<%= data.user.avatar%>" style="width: 40px; height: 40px"/></a><%= data.user.username%></li>
+            <% if(data) { %>
+                <li ><a href="/userProfile"><img src="<%= data.avatar%>" style="width: 40px; height: 40px"/></a><%= data.username%></li>
                 <li class="signup"><a href="/logout">Logout</a></li>
                 
             <% } else { %>
@@ -39,20 +41,21 @@
     </div>
 
     <h1>Profile User</h1>
-    <button><a href="/updateProfile">Update Profile</a></button>
-    <% if(data.user) { %>
+    <% if(data) { %>
         <ul>
             <li>Avatar :</li>
             <img src="<%=data.avatar%>" alt="Avatar" style="width: 300px;height:auto ;">
             
-            <li>Log name :</li>
-            <%=data.log_name%>
-            
-            <li>Display name :</li>
+            <form class="form">
+                <div class="custom-file">
+                    <input type="file" class="custom-file__input" id="field-upload" name="avatar" required>
+                    <label class="custom-file__label" for="field-upload">Choose Avatar</label>
+                </div>
+                <button id="update-button" type="button">Update</button></li> 
+            </form>
+
+            <li>Username :</li>
             <%=data.username%>
-            
-            <li>Email :</li>
-            <%=data.email%>
         </ul>
         <h3>List course liked</h3>
         <% for(var i=0; i < courseLike.length; i++) { %>      
@@ -61,5 +64,45 @@
     <% } else { %>
         
     <% } %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 </body>
 </html>
+<script type="text/javascript">
+    $(function () {
+        $('input[type="text"]').change(function () {
+            this.value = $.trim(this.value);
+        });
+    });
+    $(function () {
+        $('#update-button').click(function () {
+            const formData = new FormData();
+            formData.append('avatar', $('input[type=file]')[0].files[0]);
+            
+            $.ajax({
+                    type: 'POST',
+                    data: formData,
+                    url: '/updateProfile',
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        if (data == true) {
+                            swal({
+                                title: "Good job!",
+                                text: "You clicked the button!",
+                                icon: "success",
+                                button: "Aww yiss!",
+                            }).then(function () {
+                                location.reload();
+                            });
+
+                        } else {
+                            swal("Oh noes!", "The AJAX request failed!", "error");
+                        }
+                    },
+                });
+        })
+    })    
+</script>

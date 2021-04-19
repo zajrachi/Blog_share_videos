@@ -13,13 +13,18 @@ app.use(fileUpload());
 app.use("/controllers/uploads", express.static(__dirname + '/uploads'));
 
 exports.login = async function(req, res){
+    
     try{
         let data = await UserModel.findOne({
-            log_name: req.body.log_name,
-            pass : req.body.pass
+            username: req.body.username,
+            pass : req.body.pass,
         })
-        req.session.User = data            
-        res.redirect('/userLogin')
+        if(data){
+            req.session.User = data       
+            res.redirect('/userLogin')
+        }else{
+            res.status(400).json('User not exist')
+        }
     }
     catch(err){
         res.json(err)
@@ -50,26 +55,20 @@ exports.goUserLogin = async function(req, res){
         let countNoti = 0
         if(dataNotiUser.length == 0) countNoti = dataNoti.length 
         if(dataNotiUser.length > 0) {
-            // dataNoti.map(i =>{
-            //    let rs =  dataNotiUser.find(data => {
-            //         return String(data.course[0]) !== String(i.course[0]._id)
-            //         // if(String(data.course[0]) !== String(i.course[0]._id)){
-            //         //     countNoti += 1 
-            //         // } 
-            //         // if(String(data.course[0]) === String(i.course[0]._id)){
-            //         //     countNoti -= 1 
-            //         // }
-            //     })
-            //     console.log('length',rs)
-            //     countNoti += rs.length
-            // })
             if(dataNotiUser.length == 1){
                 countNoti = dataNoti.length - 1;
             }else if(dataNotiUser.length > 1){
                 countNoti = dataNoti.length - dataNotiUser.length;
             }
         }
-        res.render('userLogin.ejs', {data, dataMusic, dataIT,dataGame,countNoti: countNoti ,dataNoti: dataNoti})
+        res.render('userLogin.ejs', {
+            data,
+            dataMusic,
+            dataIT,
+            dataGame,
+            countNoti,
+            dataNoti
+        });
     }
     catch(err){
         res.json(err)
@@ -82,7 +81,7 @@ exports.goUserLogin = async function(req, res){
 exports.register = async function(req, res){
     try{
         let data = await UserModel.findOne({
-            log_name : req.body.log_name
+            username : req.body.username
         })
         if(data){
             res.status(400).json('Username was existed!')
@@ -103,10 +102,8 @@ exports.register = async function(req, res){
                 
             }
             await UserModel.create({
-                log_name: req.body.log_name,
-                pass : req.body.pass,
                 username : req.body.username,
-                email: req.body.email,
+                pass : req.body.pass,
                 avatar : path,
             })
             res.status(200).json(true)
@@ -127,15 +124,16 @@ exports.logout = async function(req, res){
     if (req.session.User && req.cookies.kim) {
         res.clearCookie('kim');
         res.redirect('/');
+    }else {
+        res.redirect('/');
     }
 }
 
 
 exports.userProfile = async function(req, res){
     try{
-        let data = await UserModel.findOne({ _id : req.session.User})
+        let data = await UserModel.findOne({ _id : req.session.User._id})
         let courseLike = await LikeModel.find({user : data._id}).populate('course');
-        data.user = req.session.User
         res.render('userProfile.ejs',{data: data, courseLike: courseLike})
     }
     catch(err) {
@@ -172,8 +170,8 @@ exports.updateProfile = async function(req, res){
             
             await UserModel.findByIdAndUpdate({_id : req.session.User._id},{
                 avatar : path,
-                username : req.body.username,
-                email : req.body.email,
+                // username : req.body.username,
+                // email : req.body.email,
             })
         }
         res.json(true)

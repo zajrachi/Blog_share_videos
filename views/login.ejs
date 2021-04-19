@@ -14,12 +14,17 @@
             <h1>Welcome</h1>
             
             <form class="form" action="/login" method="POST">
-                <input type="text" placeholder="Username" name="log_name" required />
-                <input type="password" placeholder="Password" name="pass" required />
+                <input type="text" placeholder="Username" name="username" />
+                <input type="password" placeholder="Password" name="pass" />
                 <ul>
                     <li><button type="submit" id="login-button">Login</button></li>
                     <li><button id="register-button"><a href="/register">Register</a></button></li>
-                </ul>
+                    <p>Login with : </p>
+                </ul>   
+            </form>
+            <form class="form" method="Get">
+                <button class="btn-social-f"><a href="/auth/facebook">F</a></button>
+                <button class="btn-social-g"><a href="/auth/google">G</a></button>
             </form>
         </div>
         
@@ -36,6 +41,7 @@
             <li></li>
         </ul>
     </div>
+    
     <script>
         $("#login-button").click(function(event){
             event.preventDefault();

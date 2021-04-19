@@ -15,10 +15,8 @@
             <h1>Register</h1>
             
             <form class="form">
-                <input type="text" placeholder="Username" name="log_name" required />
+                <input type="text" placeholder="Username" name="username" required />
                 <input type="password" placeholder="Password" name="pass" required />
-                <input type="text" placeholder="Display name" name="username" required />
-                <input type="text" placeholder="Email" name="email" required />
                 <div class="custom-file">
                     <input type="file" class="custom-file__input" id="field-upload" name="avatar" required>
                     <label class="custom-file__label" for="field-upload">Choose Avatar</label>
@@ -66,13 +64,13 @@
         });
     });
     $(function () {
-        $('#register').click(function (e) {
+        $('#register-button').click(function (e) {
             const formData = new FormData();
-            formData.append('log_name', $('input[name=log_name]').val());
-            formData.append('avatar', $('input[type=file]')[0].files[0]);
-            formData.append('pass', $('input[name=pass]').val());
+            // formData.append('log_name', $('input[name=log_name]').val());
             formData.append('username', $('input[name=username]').val());
-            formData.append('email', $('input[name=email]').val());
+            formData.append('pass', $('input[name=pass]').val());
+            formData.append('avatar', $('input[type=file]')[0].files[0]);
+            // formData.append('email', $('input[name=email]').val());
                 $.ajax({
                     type: 'POST',
                     data: formData,

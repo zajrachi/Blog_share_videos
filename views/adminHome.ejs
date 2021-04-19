@@ -5,20 +5,181 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="controllers/uploads/icons8-video-64.ico" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="admin.css">
     <title>Admin Page</title>
 </head>
 <body>
-    ADMIN PAGE 
-    <ul>
-        <% if(data.admin) { %>
-            <li ><%= data.admin.log_name%></li>
-            <li class="signup"><a href="/adminLogout">Logout</a></li>
-        <% } %>
-    </ul>
-    <button type="button"><a href="/addCourse">Add Course</a></button>
+    <div class="top">
+        <div class="logo">Administrator</div>
+        <form class="search-form" action="/adminHome" method="get">
+            <input type="search" name="course_name" placeholder="Search...">
+            <label for="search-state">
+                <i class="fas fa-search"></i>
+            </label>
+        </form>
+        <div class="login">
+            <ul>
+                <% if(data.admin) { %>
+                    <li ><%= data.admin.log_name%></li>
+                    <li class="signup"><a href="/adminLogout">Logout</a></li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+    <div class="main">
+        <div class="right">
+            <div class="row">
+                <div id="admin" class="col s12">
+                    <div class="card material-table">
+                        <div class="table-header">
+                            <span class="table-title">List video</span>
+                            <div class="actions">
+                                <a href="http://localhost:3000/addCourse"
+                                    class="modal-trigger waves-effect btn-flat nopadding">
+                                    <i class="fas fa-plus-square"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <table id="datatable">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Image</th>
+                                    <th>Video Name</th>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for(var i=0; i < data.length; i++) { %>
+                                    <tr>
+                                        <td>
+                                            <%= i+1%>
+                                        </td>
+                                        <td>
+                                            <img style="width: 110px; height: 100px;" src="<%= data[i].course_img%>" alt="">
+                                        </td>
+                                        <td>
+                                            <%= data[i].course_name%>
+                                        </td>
+                                        <td>
+                                            <%= data[i].course_date.toDateString()%> || <%= data[i].course_date.toLocaleTimeString()%>
+                                        </td>
+                                        <td>
+                                            <%= data[i].course_des%>
+                                        </td>
+                                        <td>
+                                            <a href="/editCourse/<%= data[i]._id%>"><i class="fas fa-pen-square"
+                                                    style="font-size: 27px; margin-right: 10px;"></i></a>
+                                            <a href="" class = "deleteMusic" data-name="<%= data[i]._id%>"><i class="fas fa-trash-alt"
+                                                    style="font-size: 27px;height: 30px; width: 30px;"></i></a>
+                                            
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                            </tbody>
+                        </table>
+                        
+                        <!-- ************************************************************** -->
+                        <div class="row">
+                            <!-- hiển thị phân trang nếu có trang -->
+                            <% if(pages > 0) { %>
+                            <nav class="mx-auto">
+                              <ul class="pagination" style="margin-top: 2rem;">
+                              
+                                <!-- FIRST ITEM -->  
+                                <% if(current == 1) { %> 
+                              <!-- // Nếu thông số http://localhost:3333/news/1/ là 1 thì First sẽ bị disabled -->
+                                    <li class="page-item disabled">
+                                      <a class="page-link" href="/adminHome">First</a>
+                                    </li>
+                                <% } else { %>
+                                <!-- // Nếu thông số http://localhost:3333/news/2/ từ 2 trở lên thì First sẽ bỏ disabled -->
+                                    <li class="page-item">
+                                      <a class="page-link" href="/adminHome">First</a>
+                                    </li>
+                                <% } %>
+                                
+                                <!-- ITEMS  -->
+                                <% var i = (Number(current) > 3 ? Number(current) - 2 : 1) %> 
+                          <!-- // Toán tử điều kiện 3 ngôi syntax: < điều_kiện ? giá_trị_1 : giá_trị_2 >
+                         // Nếu điều_kiện trả về true, toán tử có giá trị giá_trị_1. Ngược lại toán tử có giá trị giá_trị_2. -->
+                                <% if(i !== 1) { %>
+                                    <li class="page-item disabled">
+                                      <a class="page-link" href="#">...</a>
+                                    </li>
+                                <% } %>
+                                <% for(; i <= (Number(current) + 2) && i <= pages; i++) { %>
+                                <!-- // Sử dụng vòng lặp để lặp qua từng trang và tăng số trang 
+                                // Trong vòng lặp for có ba biểu thức tùy chọn nên chỉ cần các bạn tách mỗi biểu thức bằng dấu `;` là oke rồi -->
+                                  <% if(i == current) { %>
+                                    <li class="page-item active">
+                                      <a class="page-link" href="/adminHome/<%= i %>/">
+                                        <%= i %>
+                                      </a>
+                                    </li>
+                                <% } else { %>
+                                    <li class="page-item">
+                                      <a class="page-link" href="/adminHome/<%= i %>/">
+                                        <%= i %>
+                                      </a>
+                                    </li>
+                                <% } %>
+                                <% if (i == Number(current) + 2 && i < pages) { %>
+                                    <li class="page-item disabled">
+                                      <a class="page-link" href="#">...</a>
+                                    </li>
+                                <% } %>
+                                <% } %>
+                                
+                                <!-- LAST ITEM -->
+                                <% if(current == pages) { %> 
+                               <!-- // Nếu số current( chỉ số phân trang ) là 6 và tổng số page là 6 thì Last bị disabled -->
+                                    <li class="page-item disabled">
+                                      <a class="page-link" href="#">
+                                        Last
+                                      </a>
+                                    </li>
+                                <% } else { %>
+                                <!-- // Ngược lại, thì Last là trang cuối cùng pages ở đây là 6 đồng nghĩa với Last là trang số 6 -->
+                                    <li class="page-item">
+                                      <a class="page-link" href="/adminHome/<%= pages %>/">
+                                        Last
+                                      </a>
+                                    </li>
+                                <% } %>
+                              </ul>
+                            </nav>
+                            <% } %>
+                          </div>
+                          <!-- ******************************************** -->
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
+    <script src="js/admin.js"></script>
+
+    <!-- <button type="button"><a href="/addCourse">Add Course</a></button>
     <% for(var i=0; i < data.length; i++) { %>      
         <li><a href="/detailCourseAdmin/<%= data[i]._id%>"><%= data[i].course_name%></a><button type="button"><a href="/editCourse/<%= data[i]._id%>">Edit Course</a></button><button type="button"><a href="/deleteCourse/<%= data[i]._id%>">Delete Course</a></button></li>
         <li><%= data[i].course_date.toDateString()%> || <%= data[i].course_date.toLocaleTimeString()%></li> 
-    <% } %>
+    <% } %> -->
 </body>
 </html>

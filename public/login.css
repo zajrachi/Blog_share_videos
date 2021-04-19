@@ -108,6 +108,15 @@
 	 transition-duration: 0.25s;
      margin-bottom: 10px;
 }
+.btn-social-f {
+	width: 122px;
+	background-color: #234cd1;
+	/* color: white; */
+}
+.btn-social-g {
+	width: 122px;
+	background-color: #ee8d1e;
+}
  form button a{
     color: #53e3a6;
     text-decoration: none;
