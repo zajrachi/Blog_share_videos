@@ -16,6 +16,8 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const fileUpload = require('express-fileupload');
+require('dotenv').config();
+
 const app = express();
 
 app.use(fileUpload());

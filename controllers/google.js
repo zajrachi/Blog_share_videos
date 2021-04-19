@@ -1,10 +1,11 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const UserModel = require('../models/dbuser')
+const UserModel = require('../models/dbuser');
+require('dotenv').config();
 
 /*  Google AUTH  */
-const GOOGLE_CLIENT_ID = '275162454535-v1odsqicv7kjvda7haold66nik3qo1lh.apps.googleusercontent.com';
-const GOOGLE_CLIENT_SECRET = 'wUlTq2lQ1mIdJI-ow1vnf6vE';
+// const GOOGLE_CLIENT_ID = '275162454535-v1odsqicv7kjvda7haold66nik3qo1lh.apps.googleusercontent.com';
+// const GOOGLE_CLIENT_SECRET = 'wUlTq2lQ1mIdJI-ow1vnf6vE';
 
 // passport.serializeUser((user, done) => {
 //     done(null, user.id);
@@ -18,8 +19,8 @@ const GOOGLE_CLIENT_SECRET = 'wUlTq2lQ1mIdJI-ow1vnf6vE';
 
 passport.use(new GoogleStrategy(
     {
-    clientID: GOOGLE_CLIENT_ID,
-    clientSecret: GOOGLE_CLIENT_SECRET,
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "/auth/google/callback"},
     function(accessToken, refreshToken, profile, done) {
         if(profile.id){
