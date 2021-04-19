@@ -9,7 +9,7 @@ const FACEBOOK_CLIENT_SECRET = '3962cf6fab1acff57885f6586379d464';
 passport.use(new FacebookStrategy ({
     clientID : FACEBOOK_CLIENT_ID,
     clientSecret : FACEBOOK_CLIENT_SECRET,
-    callbackURL : "http://localhost:3000/auth/facebook/callback"
+    callbackURL : "/auth/facebook/callback"
     },
     function (accessToken,refreshToken,profile,done) {
         if(profile.id){
