@@ -1,11 +1,13 @@
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
-const UserModel = require('../models/dbuser');
-require('dotenv').config();
+const UserModel = require('../models/dbuser')
+const keys = require('../key')
+
+
 
 passport.use(new FacebookStrategy ({
-    clientID : process.env.FACEBOOK_CLIENT_ID,
-    clientSecret : process.env.FACEBOOK_CLIENT_SECRET,
+    clientID : keys.FACEBOOK_CLIENT_ID,
+    clientSecret : keys.FACEBOOK_CLIENT_SECRET,
     callbackURL : "/auth/facebook/callback"
     },
     function (accessToken,refreshToken,profile,done) {

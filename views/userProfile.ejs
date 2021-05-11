@@ -7,40 +7,91 @@
     <link rel="icon" href="controllers/uploads/icons8-video-64.ico" type="image/png">
     <link rel="stylesheet" href="updateAvatar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link rel="stylesheet" href="notification.css">
+    <link rel="stylesheet" href="userProfile.css">
+    <link rel="stylesheet" href="profile.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
     <title>Profile User</title>
 </head>
 <body>
+    
+        <div class="head">
+            <div class="logo" style="width:150px ; height:50px">shareXvideos</div>
+                <% if(data.user) { %>
+                    <a href="/userLogin" class="home">Home Page</a>
+                <% } else { %>
+                    <a href="/" class="home">Home Page</a>
+                <% } %>
+                    <div class="menu-topic">
+                        <button class="btn-topic"> Topic</button>
+                        <div class="drop-topic">
+                            <a href="/topicIT">IT</a>
+                            <a href="/topicMusic">Music</a>
+                            <a href="/topicGame">Game</a>
+                        </div>
+                    </div>
 
-    <div style="display: flex;">
-        <div class="logo"> shareXvideos</div>
+                    <ul class="bell">
+                        <% if(data.user) { %>
+                            <li><a href="/userProfile"><img src="<%= data.user.avatar%>" class="avatar" /></a>
+                                <article class="user-name">
+                                    <%= data.user.username%>
+                                </article>
+                            </li>
+                            <div class="dropdown">
+                                <button onclick="myFunction()" class="dropbtn" ><a  href="/userLogin"></a>
+                                    <i class="fas fa-bell" ></i>
+                                    <%=countNoti%>
+                                </button>
+                                <div id="myDropdown" class="dropdown-content">
+                                    <% for(let i=0; i < dataNoti.length; i++) { %>
+                                        <a href="/detail/<%= dataNoti[i].course[0]._id%>">
+                                            You have a new video : <%= dataNoti[i].course[0].course_name%>
+                                        </a>
+                                    <% } %>
+                                </div>
+                            </div>
+                            <li class="signup"><button><a href="/logout">Logout</a></button></li>
 
-        <% if(data) { %>
-            <a href="/userLogin">Home Page</a>
-        <% } else { %>
-            <a href="/">Home Page</a>
-        <% } %>
-
-        <ul>
-            Topic
-            <li><a href="/topicIT">IT</a></li>
-            <li><a href="/topicMusic">Music</a></li>
-            <li><a href="/topicGame">Game</a></li>
-        </ul>
-
+                        <% } else { %>
+                            <li class="signin"><a href="/login">Signin</a></li>
+                            <li class="register"><a href="/register">Signup</a></li>
+                        <% } %>
+                    </ul>
+        </div>
         
-        <ul>
-            <% if(data) { %>
-                <li ><a href="/userProfile"><img src="<%= data.avatar%>" style="width: 40px; height: 40px"/></a><%= data.username%></li>
-                <li class="signup"><a href="/logout">Logout</a></li>
-                
-            <% } else { %>
-                <li class="signin"><a href="/login">Signin</a></li>
-                <li class="signup"><a href="/register"><i class="fas fa-user"></i>Signup</a></li>
-            <% } %>
-        </ul>
-    </div>
+    
+    <script>     
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
 
-    <h1>Profile User</h1>
+        // Close the dropdown menu if the user clicks outside of it
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                let dropdowns = document.getElementsByClassName("dropdown-content");
+                let i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    let openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+        window.onscroll = function() {
+            if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+                document.querySelector(".head").style.background = "-webkit-linear-gradient(top left,#50a3a2 0%,#53e3a6 100%)";   
+            } else {
+                document.querySelector(".head").style.background = "";
+                
+            }
+        }
+    </script>
+
+    <!-- <h1>Profile User</h1>
     <% if(data) { %>
         <ul>
             <li>Avatar :</li>
@@ -63,7 +114,42 @@
         <% } %>
     <% } else { %>
         
-    <% } %>
+    <% } %> -->
+
+    <h1>Profile User</h1>
+    <div class="productlist">
+        <% if(data) { %>
+            <div class="product">
+                <h2><a href="#"><%=data.username%></a></h2>
+                <div class="image"><img alt="" src="<%=data.avatar%>"></div>
+                <form class="form">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file__input" id="field-upload" name="avatar" required>
+                        <label class="custom-file__label" for="field-upload">Choose Avatar</label>
+                    </div><br/>
+                    <button id="update-button" class="learn-more" type="button">Update</button></li> 
+                </form>
+            </div>
+            <div class="product">
+                <h3>List course liked</h3>
+                <% for(var i=0; i < courseLike.length; i++) { %>      
+                    <!-- <li>
+                        <img class="img-course-like" src="<%=courseLike[i].course[0].course_img%>" >
+                        <a href="/detail/<%=courseLike[i].course[0]._id%>"><%=courseLike[i].course[0].course_name%></a>
+                        <button><a href="/deleteCourseLiked/<%=courseLike[i].course[0]._id%>">x</a></button>
+                    </li> -->
+                    <table>
+                        <tr>
+                            <td> <img class="img-course-like" src="<%=courseLike[i].course[0].course_img%>" > </td>
+                            <td> <a  href="/detail/<%=courseLike[i].course[0]._id%>"><%=courseLike[i].course[0].course_name%></a> </td>
+                            <td> <button class="btn-x"><a href="/deleteCourseLiked/<%=courseLike[i].course[0]._id%>">x</a></button> </td>
+                        </tr>
+                    </table>
+                <% } %>
+            </div>
+        <% } %>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
         integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
         crossorigin="anonymous"></script>

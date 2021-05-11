@@ -1,127 +1,145 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="controllers/uploads/icons8-video-64.ico" type="image/png">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Course detail</title>
- 
+    <link rel="icon" href="controllers/uploads/icons8-video-64.ico" type="image/png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css'>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js'></script>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+    <link rel="stylesheet" href="/detail.css">
 </head>
+
 <body>
-
-    <div style="display: flex;">
-        <div class="logo"> shareXvideos</div>
-
-        <% if(data.user) { %>
-            <a href="/userLogin">Home Page</a>
-        <% } else { %>
-            <a href="/">Home Page</a>
-        <% } %>
-
-        <ul>
-            Topic
-            <li><a href="/topicIT">IT</a></li>
-            <li><a href="/topicMusic">Music</a></li>
-            <li><a href="/topicGame">Game</a></li>
-        </ul>
-
-        <ul>
+    <div class="main">
+        <div class="head">
+            <div class="logo" style="width:150px ; height:50px">shareXvideos</div>
             <% if(data.user) { %>
-                <li ><a href="/userProfile"><img src="<%= data.user.avatar%>" style="width: 40px; height: 40px"/></a><%= data.user.username%></li>
-                <li class="signup"><a href="/logout">Logout</a></li>
+                <a href="/userLogin" class="home">Home Page</a>
+                <% } else { %>
+                    <a href="/" class="home">Home Page</a>
+                    <% } %>
+                        <div class="menu-topic">
+                            <button class="btn-topic"> Topic</button>
+                            <div class="drop-topic">
+                                <a href="/topicIT">IT</a>
+                                <a href="/topicMusic">Music</a>
+                                <a href="/topicGame">Game</a>
+                            </div>
+                        </div>
+
+                        <div>
+                            <ul class="bell">
+                                <% if(data.user) { %>
+                                    <li><a href="/userProfile"><img src="<%= data.user.avatar%>" class="avatar" /></a>
+                                        <article class="user-name">
+                                            <%= data.user.username%>
+                                        </article>
+                                    </li>                                  
+                                    <li class="signup"><button><a href="/logout">Logout</a></button></li>
+                                <% } else { %>
+                                    <li class="signin"><a href="/login">Signin</a></li>
+                                    <li class="register"><a href="/register">Signup</a></li>
+                                <% } %>
+                            </ul>
+                        </div>
+        </div>
+    <div class="container-fluid padding">
+        <div class="row padding">
+            <div class="col-md-12 col-lg-6">
+                <iframe width="700" height="350" src="<%= data.course_url%>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+                <% if(data.user) { %>
+                    <% if(!liked) { %>
+                        <div class="mt-2 "><button id="btn-like" class="btn btn-primary btn-sm ml-1 shadow-none" type="button"><a href="/likeCourse/<%=data.id%>">Like</a></button></div>
+                    <% } else { %>
+                        <div class="mt-2 "><button class="btn btn-primary btn-sm ml-1 shadow-none" type="button"> Liked </button></div>
+                    <% } %>
+                <% } %>
+                <hr/>
+                <% if(data.user) { %>
+                    <form action="/postComment/<%= data.id%>" method="post">
+                        <div class="d-flex flex-row align-items-start"><input class="form-control ml-1 shadow-none textarea" name="content"></div>
+                        <div class="mt-2 text-right"><button id="post-comment" class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button></div>
+                    </form>
+                    
+                    <hr/>
+                    <% for(let i=0; i < comment.length; i++) { %>
+                        <ul>
+                            <li><a href="#"><img src="<%=comment[i].user[0].avatar%>"
+                                        style="width: 40px; height: 40px" /></a>
+                                <%=comment[i].user[0].username%> :
+                                    <%=comment[i].content%>
+                            </li>
+                        </ul>
+                    <% } %>
+                <% } else { %>
+                    <% for(let i=0; i < comment.length; i++) { %>
+                        <ul>
+                            <li><a href="#"><img src="<%=comment[i].user[0].avatar%>"
+                                        style="width: 40px; height: 40px" /></a>
+                                <%=comment[i].user[0].username%> :
+                                    <%=comment[i].content%>
+                            </li>
+                        </ul>
+                    <% } %>
+                <% } %>
+            </div>
+            <div class="col-lg-6">
+
+                <p> Video name : <%= data.course_name%></p>
+                <p> Date : <%= data.course_date.toDateString()%> ||
+                    <%= data.course_date.toLocaleTimeString()%></p>
+                <p> Description : <%= data.course_des%></p>
+                <p> Likes : <%= data.course_like%></p>
                 
-            <% } else { %>
-                <li class="signin"><a href="/login">Signin</a></li>
-                <li class="signup"><a href="/register"><i class="fas fa-user"></i>Signup</a></li>
-            <% } %>
-        </ul>
+            </div>
+        </div>
     </div>
-
-    <!-- <ul>
-        <% if(data.user) { %>
-            <li ><%= data.user.log_name%></li>
-            <li class="signup"><a href="/logout">Logout</a></li>
-        <% } else { %>
-            <li class="signin"><a href="/login">Signin</a></li>
-            <li class="signup"><a href="/register"><i class="fas fa-user"></i>Signup</a></li>
-        <% } %>
-    </ul> -->
-    <ul>
-        <li><%= data.course_name%></li>
-        <li><iframe width="560" height="315" src="<%= data.course_url%>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></li> 
-        <li><%= data.course_date.toDateString()%> || <%= data.course_date.toLocaleTimeString()%></li> 
-        <li><%= data.course_des%></li>     
-        <li><%= data.course_like%></li>
-        <% if(data.user) { %>
-            <% if(!liked) { %>
-                <li> <button id="btn-like" type="button"><a href="/likeCourse/<%=data.id%>">Like</a></button> </li>
-            <% } else { %>
-                <li> <button type="button"> Liked </button> </li>
-            <% } %> 
-        <% } %>        
-    </ul>
-
-
-    
-    
-    <hr>
-    <div>
-        <% if(data.user) { %>
-            <form>
-                <br>
-                <input type="text" placeholder="Enter your comment..." id="content" name="content"/>
-                <button id="post-comment" type="submit">Post</button>
-            </form>
-            <% for(let i=0; i < comment.length; i++) { %>      
-                <ul>
-                    <li><a href="/userProfile"><img src="<%=comment[i].user[0].avatar%>" style="width: 40px; height: 40px"/></a><%=comment[i].user[0].username%> : <%=comment[i].content%> </li>
-                    <%=comment[i].date.toLocaleDateString()%> -- <%= data.course_date.toLocaleTimeString()%>
-                </ul> 
-            <% } %> 
-        <% } else { %>
-            <% for(let i=0; i < comment.length; i++) { %> 
-                <ul>
-                    <li><a href="/userProfile"><img src="<%=comment[i].user[0].avatar%>" style="width: 40px; height: 40px"/></a><%=comment[i].user[0].username%> : <%=comment[i].content%></li>
-                    <%=comment[i].date.toLocaleDateString()%> -- <%= data.course_date.toLocaleTimeString()%>
-                </ul> 
-            <% } %> 
-        <% } %>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 </body>
+
 </html>
-<script type="text/javascript">
-    $(function () {
-        $('input[type="text"]').change(function () {
+<!-- <script type="text/javascript">
+    $(function() {
+        $('input[type="text"]').change(function() {
             this.value = $.trim(this.value);
         });
     });
-    $(function () {
-        $('#post-comment').click(function () {
+    $(function() {
+        $('#post-comment').click(function() {
             const content = $('input[name=content]').val()
             const course = `<%= data.id%>`
-            const data = {course: course, content:content}
-            
+            const data = {
+                course: course,
+                content: content
+            }
+
             $.ajax({
                 type: 'POST',
-                data : data,
-                url : '/postComment',
+                data: data,
+                url: '/postComment',
                 success: function(data) {
-                    if(data == true){
+                    if (data == true) {
                         location.reload()
-                    }else{
+                    } else {
                         swal('Post Error !')
                     }
                 }
             })
         })
     })
-
-
-
-    
-</script>
+</script> -->

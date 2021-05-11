@@ -1,0 +1,27 @@
+@media only screen and (max-width: 1024px){
+    .menu-topic {
+        top: 12px;
+    }
+    .home {
+        position: absolute;
+        left: 27%;
+        top: 30px;
+    }
+    .banner {
+        background-size: unset;
+        background-repeat: no-repeat;
+    }
+    .content {
+        top: 60vh;
+    }
+    .intro-team {
+        top: 135vh;
+        padding: 15px;
+    }
+    .footer {
+        top: 170vh;
+    }
+}
+@media only screen and (max-width: 767px){
+
+}

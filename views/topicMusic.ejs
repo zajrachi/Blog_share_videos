@@ -5,52 +5,147 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="controllers/uploads/icons8-video-64.ico" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link rel="stylesheet" href="notification.css">
+    <link rel="stylesheet" href="userProfile.css">
+    <link rel="stylesheet" href="profile.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+    <link rel="stylesheet" href="topic.css">
     <title>Topic Music</title>
 </head>
 <body>
-    <div style="display: flex;">
-        <div class="logo"> shareXvideos</div>
-
-        <% if(data.user) { %>
-            <a href="/userLogin">Home Page</a>
-        <% } else { %>
-            <a href="/">Home Page</a>
-        <% } %>
-
-        <ul>
-            Topic
-            <li><a href="/topicIT">IT</a></li>
-            <li><a href="/topicMusic">Music</a></li>
-            <li><a href="/topicGame">Game</a></li>
-        </ul>
-
-        <form class="search-form" action="/topicMusic" method="get">
-            <input type="search" name="course_name" placeholder="Search course...">
-        </form>
-
-        <ul>
+    <div class="head">
+        <div class="logo" style="width:150px ; height:50px">shareXvideos</div>
             <% if(data.user) { %>
-                <li ><a href="/userProfile"><img src="<%= data.user.avatar%>" style="width: 40px; height: 40px"/></a><%= data.user.username%></li>
-                <li class="signup"><a href="/logout">Logout</a></li>
-                
+                <a href="/userLogin" class="home">Home Page</a>
             <% } else { %>
-                <li class="signin"><a href="/login">Signin</a></li>
-                <li class="signup"><a href="/register"><i class="fas fa-user"></i>Signup</a></li>
+                <a href="/" class="home">Home Page</a>
             <% } %>
-        </ul>
+                <div class="menu-topic">
+                    <button class="btn-topic"> Topic</button>
+                    <div class="drop-topic">
+                        <a href="/topicIT">IT</a>
+                        <a href="/topicMusic">Music</a>
+                        <a href="/topicGame">Game</a>
+                    </div>
+                </div>
+                
+                <div class="div-search">
+                    <form method="get">
+                        <input type="text" class="textbox" placeholder="Search" name="course_name">
+                        <input title="Search" value="" type="submit" class="button">
+                    </form>
+                </div>
+
+                <ul class="bell">
+                    <% if(data.user) { %>
+                        <li><a href="/userProfile"><img src="<%= data.user.avatar%>" class="avatar" /></a>
+                            <article class="user-name">
+                                <%= data.user.username%>
+                            </article>
+                        </li>
+                        <div class="dropdown">
+                            <button onclick="myFunction()" class="dropbtn" ><a  href="/userLogin"></a>
+                                <i class="fas fa-bell" ></i>
+                                <%=countNoti%>
+                            </button>
+                            <div id="myDropdown" class="dropdown-content">
+                                <% for(let i=0; i < dataNoti.length; i++) { %>
+                                    <a href="/detail/<%= dataNoti[i].course[0]._id%>">
+                                        You have a new video : <%= dataNoti[i].course[0].course_name%>
+                                    </a>
+                                <% } %>
+                            </div>
+                        </div>
+                        <li class="signup"><button><a href="/logout">Logout</a></button></li>
+
+                    <% } else { %>
+                        <li class="signin"><a href="/login">Signin</a></li>
+                        <li class="register"><a href="/register">Signup</a></li>
+                    <% } %>
+                </ul>
     </div>
+    
+
+<script>     
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown menu if the user clicks outside of it
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+            let dropdowns = document.getElementsByClassName("dropdown-content");
+            let i;
+            for (i = 0; i < dropdowns.length; i++) {
+                let openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+    window.onscroll = function() {
+        if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+            document.querySelector(".head").style.background = "-webkit-linear-gradient(top left,#50a3a2 0%,#53e3a6 100%)";   
+        } else {
+            document.querySelector(".head").style.background = "";
+            
+        }
+    }
+</script>
 
 
     <h1>Music</h1>
-    <div style="display: flex;">
+    <div class="productlist">
         <% for(let i=0; i < data.length; i++) { %>  
             <% if(data[i].category[0].cate_name == "Music") { %>
-                 <div>
-                    <li><%= data[i].course_name%></li>
-                    <li><a href="/detail/<%= data[i]._id%>"><img src="<%= data[i].course_img%>" alt="photo" style="width: 300px;height: 200px;"/></a></li>
-                 </div>    
-            <% } %>
+                <div class="product">
+                    <h2><a href="/product/0"><%= data[i].course_name%></a></h2>
+                    <div class="image"><img alt="" src="<%= data[i].course_img%>"></div>
+                    <button type="submit"><a href="/detail/<%= data[i]._id%>">Watch Video</a></button>
+                </div>
+           <% } %>
         <% } %>
+    </div>
+
+    <div class="footer">
+        <footer class="w3-row-padding w3-padding-32">
+            <div class="w3-third">
+              <h3>shareXvideos</h3>
+              <p class="foot-intro">Videos are carefully invested from content to image and sound quality. We create the website to share our knowledge and passion.</br> We hope you like it !</p>
+              <p>Powered by <a href="https://www.facebook.com/tr.kim.92/" target="_blank">@kimTr</a></p>
+            </div>
+          
+            <div class="w3-third">
+              <h3>Contact us</h3>
+              <ul class="w3-ul w3-hoverable">
+                <li class="w3-padding-16">
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8xjjWkXHRXgyUOS9L2Sd35MxGBx6BuaH8iw&usqp=CAU" class="w3-left w3-margin-right" style="width:50px">
+                  <span class="w3-large">Gmail</span><br>
+                  <span>Mailbox support</span>
+                </li>
+                <li class="w3-padding-16">
+                  <img src="https://i.pinimg.com/originals/de/6d/f0/de6df0ee130430ebb8995093867ae63b.jpg" class="w3-left w3-margin-right" style="width:50px">
+                  <span class="w3-large">Facebook</span><br>
+                  <span>Group fanpage</span>
+                </li> 
+              </ul>
+            </div>
+        
+            <div class="w3-third w3-serif">
+              <h3>POPULAR TAGS</h3>
+              <p>
+                <span class="w3-tag w3-black w3-margin-bottom">shareXvideos</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Vietnamese</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Relax</span>
+                <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">IT</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">English</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">After work</span>
+                <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Music</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Passion</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">NodeJs</span>
+                <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Game</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Share</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Javascript</span>
+                <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Study</span> <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">kimTr</span>
+              </p>
+            </div>
+          </footer>
     </div>
 </body>
 </html>

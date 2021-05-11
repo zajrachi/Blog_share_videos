@@ -1,11 +1,11 @@
 const express = require('express');
 const ejs = require('ejs');
 const mongoose = require('mongoose')
-const UserModel = require('./models/dbuser')
-const CoursesModel = require('./models/dbcourses')
-const CategoryModel = require('./models/dbcategory')
-const NotificationModel = require('./models/dbnotification')
-const NotificationUserModel = require('./models/dbnotificationUser')
+// const UserModel = require('./models/dbuser')
+// const CoursesModel = require('./models/dbcourses')
+// const CategoryModel = require('./models/dbcategory')
+// const NotificationModel = require('./models/dbnotification')
+// const NotificationUserModel = require('./models/dbnotificationUser')
 const home = require('./controllers/home')
 const auth = require('./controllers/auth')
 const admin = require('./controllers/admin')
@@ -16,13 +16,21 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const fileUpload = require('express-fileupload');
-require('dotenv').config();
-
 const app = express();
 
 app.use(fileUpload());
 app.use(express.static(__dirname + '/public' ));
 app.use("/controllers/uploads", express.static(__dirname + '/controllers/uploads'));
+
+
+//  CONNECT MONGOOSE
+ mongoose.connect('mongodb://kim:12345678@3.1.211.199:27017/kim', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+})
+ 
 
 
 app.use(cookieParser());
@@ -58,12 +66,7 @@ passport.deserializeUser(function(obj, cb) {
     cb(null, obj);
 });
 
-mongoose.connect('mongodb://kim:12345678@3.1.211.199:27017/kim', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true
-})
+
 
 //*********************Route GG******************************** */
 app.get('/auth/google', passportGoogle.authenticate('google', { scope : ['profile', 'email'], prompt: 'select_account consent' }));
@@ -113,7 +116,7 @@ app.post('/editCourse/:id',admin.editCourse)
 app.get('/editCourse/:id',admin.goEditCourse)
 app.get('/deleteCourse/:id',admin.deleteCourse)
 app.get('/deleteComment/:commentId',admin.deleteComment)
-app.post('/postComment',home.postComment)
+app.post('/postComment/:id',home.postComment)
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Server started on  port: http://localhost:${port}/`)

@@ -32,7 +32,21 @@ exports.topicIT = async function(req, res){
     if(req.query.course_name) {query.course_name = new RegExp(req.query.course_name)}
     let data = await CoursesModel.find(query).populate('category')
     data.user = req.session.User 
-    res.render('topicIT.ejs', {data: data})
+    //////////////////////////////
+    let dataNoti = await NotificationModel.find().populate('course')
+    let dataNotiUser = await NotificationUserModel.find({
+        user : req.session.User
+    })
+    let countNoti = 0
+    if(dataNotiUser.length == 0) countNoti = dataNoti.length 
+    if(dataNotiUser.length > 0) {
+        if(dataNotiUser.length == 1){
+            countNoti = dataNoti.length - 1;
+        }else if(dataNotiUser.length > 1){
+            countNoti = dataNoti.length - dataNotiUser.length;
+        }
+    }
+    res.render('topicIT.ejs', {data, dataNoti ,countNoti})
 }
 
 exports.topicMusic = async function(req, res){
@@ -40,7 +54,21 @@ exports.topicMusic = async function(req, res){
     if(req.query.course_name) {query.course_name = new RegExp(req.query.course_name)}
     let data = await CoursesModel.find(query).populate('category')
     data.user = req.session.User 
-    res.render('topicMusic.ejs', {data: data})
+    ////////////////////////////
+    let dataNoti = await NotificationModel.find().populate('course')
+    let dataNotiUser = await NotificationUserModel.find({
+        user : req.session.User
+    })
+    let countNoti = 0
+    if(dataNotiUser.length == 0) countNoti = dataNoti.length 
+    if(dataNotiUser.length > 0) {
+        if(dataNotiUser.length == 1){
+            countNoti = dataNoti.length - 1;
+        }else if(dataNotiUser.length > 1){
+            countNoti = dataNoti.length - dataNotiUser.length;
+        }
+    }
+    res.render('topicMusic.ejs', {data,dataNoti,countNoti})
 }
 
 exports.topicGame = async function(req, res){
@@ -48,7 +76,20 @@ exports.topicGame = async function(req, res){
     if(req.query.course_name) {query.course_name = new RegExp(req.query.course_name)}
     let data = await CoursesModel.find(query).populate('category')
     data.user = req.session.User 
-    res.render('topicGame.ejs', {data: data})
+    let dataNoti = await NotificationModel.find().populate('course')
+    let dataNotiUser = await NotificationUserModel.find({
+        user : req.session.User
+    })
+    let countNoti = 0
+    if(dataNotiUser.length == 0) countNoti = dataNoti.length 
+    if(dataNotiUser.length > 0) {
+        if(dataNotiUser.length == 1){
+            countNoti = dataNoti.length - 1;
+        }else if(dataNotiUser.length > 1){
+            countNoti = dataNoti.length - dataNotiUser.length;
+        }
+    }
+    res.render('topicGame.ejs', {data,dataNoti,countNoti})
 }
 
 
@@ -75,6 +116,32 @@ exports.detail = async function(req, res){
                 user : req.session.User,
             })
         }
+        // let dataNoti = await NotificationModel.find().populate('course')
+        // let dataNotiUser = await NotificationUserModel.find({
+        //     user : req.session.User
+        // })
+        // let countNoti;
+        // if(countNoti > 0){
+        //     if(dataNotiUser.length == 0) countNoti = dataNoti.length
+        //     else if(dataNotiUser.length > 0) {
+        //         if(dataNotiUser.length == 1){
+        //             countNoti = dataNoti.length - 1;
+        //         }else if(dataNotiUser.length > 1){
+        //             countNoti = dataNoti.length - dataNotiUser.length;
+        //         }
+        //     }
+        // }
+
+        /****************************************************** */
+        // if(dataNotiUser.length == 0) countNoti = dataNoti.length 
+        // if(dataNotiUser.length > 0) {
+        //     if(dataNotiUser.length == 1){
+        //         countNoti = dataNoti.length - 1;
+        //     }else if(dataNotiUser.length > 1){
+        //         countNoti = dataNoti.length - dataNotiUser.length;
+        //     }
+        // }
+        // res.render('detailCourse.ejs',{data, comment, liked, dataNoti , countNoti})
         res.render('detailCourse.ejs',{data, comment, liked})
     }
     catch (err) {
@@ -85,12 +152,12 @@ exports.detail = async function(req, res){
 
 exports.postComment = async function(req, res){
     try {
-        await CommentsModel.create({
+        let comment = await CommentsModel.create({
             content : req.body.content,
             user : req.session.User,
-            course : req.body.course
+            course : req.params.id
         })
-        res.json(true)
+        res.redirect(`/detail/${comment.course}`)
     }
     catch (err) {
         res.json(err)

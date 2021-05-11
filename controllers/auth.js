@@ -55,11 +55,12 @@ exports.goUserLogin = async function(req, res){
         let countNoti = 0
         if(dataNotiUser.length == 0) countNoti = dataNoti.length 
         if(dataNotiUser.length > 0) {
-            if(dataNotiUser.length == 1){
-                countNoti = dataNoti.length - 1;
-            }else if(dataNotiUser.length > 1){
-                countNoti = dataNoti.length - dataNotiUser.length;
-            }
+            // if(dataNotiUser.length == 1){
+            //     countNoti = dataNoti.length - 1;
+            // }else if(dataNotiUser.length > 1){
+            //     countNoti = dataNoti.length - dataNotiUser.length;
+            // }
+            countNoti = dataNoti.length - dataNotiUser.length;
         }
         res.render('userLogin.ejs', {
             data,
@@ -134,7 +135,21 @@ exports.userProfile = async function(req, res){
     try{
         let data = await UserModel.findOne({ _id : req.session.User._id})
         let courseLike = await LikeModel.find({user : data._id}).populate('course');
-        res.render('userProfile.ejs',{data: data, courseLike: courseLike})
+        data.user = req.session.User
+        let dataNoti = await NotificationModel.find().populate('course')
+        let dataNotiUser = await NotificationUserModel.find({
+            user : req.session.User
+        })
+        let countNoti = 0
+        if(dataNotiUser.length == 0) countNoti = dataNoti.length 
+        if(dataNotiUser.length > 0) {
+            if(dataNotiUser.length == 1){
+                countNoti = dataNoti.length - 1;
+            }else if(dataNotiUser.length > 1){
+                countNoti = dataNoti.length - dataNotiUser.length;
+            }
+        }
+        res.render('userProfile.ejs',{data, courseLike, countNoti , dataNoti})
     }
     catch(err) {
         res.json(err)

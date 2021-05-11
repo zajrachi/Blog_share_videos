@@ -1,0 +1,205 @@
+* {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+    /* padding: 1rem; */
+    background-color: #FFFFFF;
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-overflow-scrolling: touch;
+    text-rendering: optimizelegibility;
+  }
+  
+  /*START of Product List*/
+  /* Fallback Layout */
+  .productlist {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  .product {
+    margin: 1rem 0;
+  }
+  
+  /*Grid Layout Properties*/
+  @supports (display: grid) {
+    .productlist{ 
+      max-width: 10000px;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      grid-gap: 1rem;
+      
+    }
+    .product {
+      margin: 0;
+      transition: all 0.3s ease-in-out;
+    }
+  }
+  
+  .productlist {
+    font-family: Avenir, Roboto, Helvetica, san-serif; 
+    font-size: 85%;
+  }
+  
+  @keyframes float {
+      0% {
+          box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
+          transform: translatey(0px);
+      }
+      100% {
+          box-shadow: 0 25px 15px 0px rgba(0,0,0,0.2);
+          transform: translatey(-5px);
+      }
+  }
+  
+  .product {
+    box-sizing: border-box;
+    background-color:#56dfb1; 
+    display: flex;
+    flex-flow: column;
+    padding-bottom: 40px;
+    box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.6);
+  }
+  .product:hover{
+    box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
+    transform: translateY(-3px);
+    /* animation: float 0.5s linear;
+    animation-fill-mode: forwards; */
+    border-radius: 3px;
+  }
+  
+  h2 {
+    height: auto;
+    width: 100%;
+    font-size: 1.7em;
+    text-align: center;
+  }
+  a{
+    color: #FFFFFF;
+    text-decoration: none;
+  }
+  .inventory {
+    color: #FFFFFF;
+    text-align: center;
+    margin: 0 0 0rem;
+  }
+  .cost {
+    color:#FFFFFF;
+    font-size: 1.2rem;
+    text-align: center;
+    margin: 0 0 1rem;
+  }
+  .image {
+    order: -1;
+    align-self: center;
+  }
+  img{
+    max-width: 100%;
+    height: 250px;
+    border-radius: 3px 3px 0 0;
+    box-sizing:border-box;
+    box-shadow: 0 2px 5px 1px rgba(0,0,0,0.4);
+  }
+  
+  button[type=submit] {
+    transition: all 0.3s ease-in-out;
+    padding:5px 15px; 
+    background:#389de0; 
+    border: 2px solid #389de0;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 auto;
+  }
+  
+  button[type=submit]:hover {
+    outline: none;
+    color: var(--dark);
+    background-color:#e7cc30;
+    border-color: #e7cc30;
+    box-shadow: 0 0 10px #9ecaed;
+  }
+  .w3-margin-right {
+    height: auto;
+  }
+  /*END of Product List*/
+  .footer{
+    position: absolute;
+    width: 100%;
+    /* top: 290vh; */
+    height: 300px;
+    background: -webkit-linear-gradient(top left,#50a3a2 0%,#53e3a6 100%);
+    margin-top: 50px;
+}
+.foot-intro {
+    font-family: "Lora",serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.9rem;
+}
+
+.div-search{
+  margin-left: 45%;
+  margin-top: 1%;
+}
+form {
+  outline: 0;
+  float: left;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+
+form > .textbox {
+  outline: 0;
+  height: 42px;
+  width: 244px;
+  line-height: 42px;
+  padding: 0 16px;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #212121;
+  border: 0;
+  float: left;
+  -webkit-border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
+}
+
+form > .textbox:focus {
+  outline: 0;
+  background-color: #FFF;
+}
+
+form > .button {
+  outline: 0;
+  background: none;
+  background-color: rgba(38, 50, 56, 0.8);
+  float: left;
+  height: 42px;
+  width: 42px;
+  text-align: center;
+  line-height: 42px;
+  border: 0;
+  color: #FFF;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: 16px;
+  text-rendering: auto;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  -webkit-transition: background-color .4s ease;
+  transition: background-color .4s ease;
+  -webkit-border-radius: 0 4px 4px 0;
+  border-radius: 0 4px 4px 0;
+}
+
+form > .button:hover {
+  background-color: rgba(0, 150, 136, 0.8);
+}
+.signin {
+  top: 13px;
+}
+.register {
+  top: 13px;
+}

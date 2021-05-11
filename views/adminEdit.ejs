@@ -5,10 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="controllers/uploads/icons8-video-64.ico" type="image/png">
+    <link rel="stylesheet" href="/adminAdd.css">
     <title>Admin's Edit Course Page</title>
 </head>
 <body>
-    <form action="/editCourse/<%=data.id%>" method="post">
+    <!-- <form action="/editCourse/<%=data.id%>" method="post">
         <label>Course Name</label>
         <input type="text" name="course_name" value="<%=data.course_name%>" required />
         <label>Description</label>
@@ -20,11 +21,61 @@
         <label>URL Image</label>
         <input type="text" name="course_img" value="<%=data.course_img%>" required />
         <select name="category">
-            <% for(let i=0; i < dataCate.length; i++) { %>      
-                <option value="<%= dataCate[i]._id%>"><%= dataCate[i].cate_name%></option>
+            <% for(let i=0; i < dataCate.length; i++) { %>     
+                <% if(cate.cate_name == dataCate[i].cate_name) { %>
+                    <option selected value="<%= dataCate[i]._id%>"><%= dataCate[i].cate_name%></option>
+                <% } else { %>
+                    <option value="<%= dataCate[i]._id%>"><%= dataCate[i].cate_name%></option>
+                <% } %>
             <% } %>    
         </select>
         <button type="submit">Save</button>
-    </form>
+    </form> -->
+
+    <!-- ///////////////////////////// -->
+    <div class="container">  
+        <form id="contact" action="/editCourse/<%=data.id%>" method="post">
+          <h3>Edit Form</h3>
+          <label>Course Name</label>
+          <fieldset>
+            <input type="text" name="course_name" value="<%=data.course_name%>" tabindex="1" required autofocus/>
+          </fieldset>
+          <label>Date</label>
+          <fieldset>
+            <input type="text" name="course_date" value="<%=data.course_date%>" tabindex="2" required />
+          </fieldset>
+          <label>URL Video</label>
+          <fieldset>
+            <input type="text" name="course_url" value="<%=data.course_url%>" tabindex="3" required />
+          </fieldset>
+          <label>URL Image</label>
+          <fieldset>
+            <input type="text" name="course_img" value="<%=data.course_img%>" tabindex="4" required />
+          </fieldset>
+          <label>Description</label>
+          <fieldset>
+            <input type="text" name="course_des" value="<%=data.course_des%>" tabindex="5" required autofocus/>
+          </fieldset>
+          <label>Topic</label>
+          <fieldset>
+            <select name="category">
+                <!-- <% for(let i=0; i < data.length; i++) { %>      
+                    <option value="<%= data[i]._id%>"><%= data[i].cate_name%></option>
+                <% } %>   -->
+                <% for(let i=0; i < dataCate.length; i++) { %>     
+                    <% if(cate.cate_name == dataCate[i].cate_name) { %>
+                        <option selected value="<%= dataCate[i]._id%>"><%= dataCate[i].cate_name%></option>
+                    <% } else { %>
+                        <option value="<%= dataCate[i]._id%>"><%= dataCate[i].cate_name%></option>
+                    <% } %>
+                <% } %>  
+            </select>
+          </fieldset>
+          <fieldset>
+            <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Save</button>
+          </fieldset>
+          <p class="copyright">Designed by <a href="https://colorlib.com" target="_blank" title="Colorlib">- Team2 -</a></p>
+        </form>
+      </div>
 </body>
 </html>

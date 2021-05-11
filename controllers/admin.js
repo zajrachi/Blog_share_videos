@@ -66,6 +66,7 @@ exports.goAdminPage = async function(req, res){
             CoursesModel.countDocuments((err, count) => { // đếm để tính có bao nhiêu trang
               if (err) return next(err);
               data.admin = req.session.User;
+              pages = Math.ceil(count / perPage)
               res.render('adminHome.ejs',{data  , current : page , pages: Math.ceil(count / perPage) })
             })
         })
@@ -124,6 +125,8 @@ exports.addCourse = async function(req, res){
             course_like : req.body.course_like,
             category : req.body.category,
         })
+        let stack = await CoursesModel.find().sort().descending
+        
         await NotificationModel.create({
             course : data._id ,
         })
@@ -165,8 +168,11 @@ exports.goEditCourse = async function(req, res) {
         let data = await CoursesModel.findOne({
             _id : req.params.id
         })
+        let cate = await CategoryModel.findOne({
+            _id : data.category
+        })
         let dataCate = await CategoryModel.find({})
-        res.render('adminEdit.ejs', {data : data, dataCate : dataCate})
+        res.render('adminEdit.ejs', {data, cate ,dataCate})
     }
     catch(err){
         res.json(err)
@@ -177,6 +183,9 @@ exports.goEditCourse = async function(req, res) {
 exports.deleteCourse = async function(req, res){
     try{
         await CoursesModel.findByIdAndDelete({_id: req.params.id})
+        await NotificationModel.findOneAndDelete({
+            course : req.params.id ,
+        })
         res.redirect('/adminHome')
     }
     catch(err){
